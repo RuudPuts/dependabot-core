@@ -139,18 +139,18 @@ RSpec.describe Dependabot::CocoaPods::FileUpdater do
   describe "#updated_dependency_files" do
     subject(:updated_files) { updater.updated_dependency_files }
 
-    xit "returns DependencyFile objects" do
+    it "returns DependencyFile objects" do
       updated_files.each { |f| expect(f).to be_a(Dependabot::DependencyFile) }
     end
 
-    pending { its(:length) { is_expected.to eq(2) } }
+    its(:length) { is_expected.to eq(2) }
 
     describe "the updated podfile" do
       subject(:updated_podfile) do
         updated_files.find { |f| f.name == "Podfile" }
       end
 
-      xcontext "when the full version is specified" do
+      context "when the full version is specified" do
         let(:podfile_body) do
           fixture("cocoapods", "podfiles", "version_specified")
         end
@@ -158,7 +158,7 @@ RSpec.describe Dependabot::CocoaPods::FileUpdater do
         its(:content) { is_expected.to include "'Nimble', '~> 2.0.0'" }
       end
 
-      xcontext "when the version is not specified" do
+      context "when the version is not specified" do
         let(:podfile_body) do
           fixture("cocoapods", "podfiles", "version_not_specified")
         end
@@ -175,11 +175,11 @@ RSpec.describe Dependabot::CocoaPods::FileUpdater do
           fixture("cocoapods", "podfiles", "version_specified")
         end
 
-        xit "locks the updated pod to the latest version" do
+        it "locks the updated pod to the latest version" do
           expect(file.content).to include "Alamofire (4.5.1)"
         end
 
-        xit "doesn't change the version of the other (also outdated) pod" do
+        it "doesn't change the version of the other (also outdated) pod" do
           expect(file.content).to include "Nimble (2.0.0)"
         end
       end
@@ -237,21 +237,21 @@ RSpec.describe Dependabot::CocoaPods::FileUpdater do
           )
         end
 
-        xit "locks the updated pod to the latest version" do
+        it "locks the updated pod to the latest version" do
           expect(file.content).to include "Nimble (3.0.0)"
         end
 
-        xit "leaves the other (git referencing) pod alone" do
+        it "leaves the other (git referencing) pod alone" do
           expect(file.content).
             to include "Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e"
         end
 
-        xit "generates the correct podfile checksum" do
+        it "generates the correct podfile checksum" do
           expect(file.content).
             to include "CHECKSUM: 2df7e373e023da06ffbeb508011feff582312fc6"
         end
 
-        xit "doesn't leave details of the access token in the lockfile" do
+        it "doesn't leave details of the access token in the lockfile" do
           expect(file.content).to_not include "x-oauth-basic"
         end
       end
