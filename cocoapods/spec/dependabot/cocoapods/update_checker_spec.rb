@@ -165,7 +165,7 @@ RSpec.describe Dependabot::CocoaPods::UpdateChecker do
     subject { checker.latest_resolvable_version }
 
     context "for a dependency from the master source" do
-      xit { is_expected.to eq(Pod::Version.new("3.0.1")) }
+      it { is_expected.to eq(Pod::Version.new("3.0.1")) }
 
       context "with a version conflict at the latest version" do
         let(:podfile_content) do
@@ -225,7 +225,7 @@ RSpec.describe Dependabot::CocoaPods::UpdateChecker do
     subject(:updated_requirements) { checker.updated_requirements }
 
     context "with a Podfile and a Podfile.lock" do
-      xit "delegates to CocoaPods::RequirementsUpdater with the right params" do
+      it "delegates to CocoaPods::RequirementsUpdater with the right params" do
         expect(
           Dependabot::CocoaPods::UpdateChecker::RequirementsUpdater
         ).to receive(:new).with(
